@@ -123,10 +123,6 @@ class FlightSearchService {
       // Calculate total duration
       const totalDuration = this.parseDuration(itinerary.duration);
       
-      // Calculate price with 20% markup
-      const originalPrice = parseFloat(offer.price.total);
-      const markedUpPrice = originalPrice * 1.20; // Add 20% markup
-      
       return {
         id: offer.id || `flight_${index}`,
         airline: segment.carrierCode,
@@ -143,8 +139,7 @@ class FlightSearchService {
         },
         duration: totalDuration,
         stops: itinerary.segments.length - 1,
-        price: Math.round(markedUpPrice * 100) / 100, // Round to 2 decimal places
-        // originalPrice: originalPrice, // Optional: keep original price for reference
+        price: parseFloat(offer.price.total),
         currency: offer.price.currency,
         cabinClass: offer.travelerPricings[0]?.fareDetailsBySegment[0]?.cabin || 'ECONOMY',
         baggage: {
